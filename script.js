@@ -32,9 +32,17 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // Check for duplicate tasks
+        const storedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+        if (storedTasks.includes(taskText)) {
+            alert('Task already exists!');
+            return;
+        }
+
         // Create a new list item for the task
         const li = document.createElement('li');
         li.textContent = taskText;
+        li.className = 'task-item'; // Add a class for styling
 
         // Create a remove button for the task
         const removeButton = document.createElement('button');
@@ -51,13 +59,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Save the task to Local Storage if `save` is true
         if (save) {
-            const storedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
             storedTasks.push(taskText);
             localStorage.setItem('tasks', JSON.stringify(storedTasks));
         }
 
-        // Clear the input field
+        // Clear the input field and focus it
         taskInput.value = '';
+        taskInput.focus();
     }
 
     // Function to remove a task
